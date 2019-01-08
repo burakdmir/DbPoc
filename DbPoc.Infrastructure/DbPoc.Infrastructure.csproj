@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DbPoc.Application\DbPoc.Application.csproj" />
+    <ProjectReference Include="..\DbPoc.Common\DbPoc.Common.csproj" />
+  </ItemGroup>
+
+</Project>
