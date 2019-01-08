@@ -1,0 +1,5 @@
+{
+  "ConnectionStrings": {
+    "DbPocDatabase": "Server=tcp:codeesql.database.windows.net,1433;Initial Catalog=DbPoc;Persist Security Info=False;User ID=cadmin;Password=Fireflower20;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+  }
+}

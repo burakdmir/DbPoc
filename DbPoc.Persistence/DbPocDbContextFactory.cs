@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
-using System;
+using System.IO;
 
 namespace DbPoc.Persistence
 {
@@ -9,7 +9,9 @@ namespace DbPoc.Persistence
     {
         public DbPocDbContext CreateDbContext(string[] args)
         {
+            string basePath = Directory.GetCurrentDirectory();
             var configuration = new ConfigurationBuilder()
+               .SetBasePath(basePath)
                .AddJsonFile("dbSettings.json")
                //.AddJsonFile($"appsettings.Local.json", optional: true)
                //.AddJsonFile($"appsettings.{environmentName}.json", optional: true)
