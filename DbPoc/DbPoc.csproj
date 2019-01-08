@@ -6,12 +6,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.8.1" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\DbPoc.Application\DbPoc.Application.csproj" />
+    <ProjectReference Include="..\DbPoc.Common\DbPoc.Common.csproj" />
+    <ProjectReference Include="..\DbPoc.Infrastructure\DbPoc.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
