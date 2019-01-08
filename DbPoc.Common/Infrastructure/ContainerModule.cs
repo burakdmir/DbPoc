@@ -6,7 +6,7 @@ namespace DbPoc.Common.Infrastructure
     {
         protected override void Load(ContainerBuilder builder)
         {
-            
+            builder.RegisterType<SystemTime>().AsSelf();
         }
     }
 }

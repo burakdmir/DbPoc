@@ -9,5 +9,8 @@
         public decimal NetPrice { get; set; }
 
         public decimal Vat { get; set; }
+
+        public byte[] Picture { get; set; }
     }
 }
+    

@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using DbPoc.Common;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace DbPoc.Controllers
 {
@@ -10,6 +8,13 @@ namespace DbPoc.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
+        private readonly SystemTime systemTime;
+
+        public ValuesController(SystemTime systemTime)
+        {
+            this.systemTime = systemTime;
+        }
+
         // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
@@ -21,7 +26,7 @@ namespace DbPoc.Controllers
         [HttpGet("{id}")]
         public ActionResult<string> Get(int id)
         {
-            return "value";
+            return $"value {systemTime.Now}";
         }
 
         // POST api/values
