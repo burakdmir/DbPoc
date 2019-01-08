@@ -1,0 +1,4 @@
+FluentValidation
+Automapper
+MediatR
+Temporal table
