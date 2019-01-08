@@ -1,4 +1,6 @@
-﻿namespace DbPoc.Domain.Entities
+﻿using DbPoc.Domain.Enums;
+
+namespace DbPoc.Domain.Entities
 {
     public class Product
     {
@@ -11,6 +13,10 @@
         public decimal Vat { get; set; }
 
         public byte[] Picture { get; set; }
+
+        public decimal Quantity { get; set; }
+
+        public UnitEnum   Unit { get; set; }
     }
 }
     
