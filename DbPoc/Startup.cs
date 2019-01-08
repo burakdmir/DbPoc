@@ -1,7 +1,9 @@
 ﻿using DbPoc.Infrastructure.IOC;
+using DbPoc.Persistence;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -10,16 +12,32 @@ namespace DbPoc
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private readonly IConfiguration configuration;
+        private readonly IHostingEnvironment hostingEnvironment;
+
+        public Startup(IConfiguration configuration,IHostingEnvironment hostingEnvironment)
         {
-            Configuration = configuration;
+            this.configuration = configuration;
+            this.hostingEnvironment = hostingEnvironment;
         }
 
-        public IConfiguration Configuration { get; }
+        
 
 
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
+            //services.AddDbContext<DbPocDbContext>(options =>
+            // options.UseSqlServer(Configuration.GetConnectionString("DbPocDatabase")));
+
+
+            IConfigurationRoot dbConfiguration = new ConfigurationBuilder()
+                .SetBasePath(hostingEnvironment.ContentRootPath)
+            .AddJsonFile("dbSettings.json")
+            //.AddJsonFile($"appsettings.Local.json", optional: true)
+            //.AddJsonFile($"appsettings.{environmentName}.json", optional: true)
+            .Build();
+
+            services.AddTransient<IConfigurationRoot>((sp)=> dbConfiguration);
 
             services
                 .AddMvc()

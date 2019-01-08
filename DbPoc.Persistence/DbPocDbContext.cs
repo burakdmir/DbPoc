@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DbPoc.Persistence
 {
-    class DbPocDbContext : DbContext
+   public  class DbPocDbContext : DbContext
     {
 
-        DbSet<Product> Products { get; set; }
+       public DbSet<Product> Products { get; set; }
 
         public DbPocDbContext(DbContextOptions<DbPocDbContext> options) : base(options)
         {

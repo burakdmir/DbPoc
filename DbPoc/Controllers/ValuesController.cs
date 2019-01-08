@@ -1,6 +1,11 @@
-﻿using DbPoc.Common;
+﻿using DbPoc.Application.Queries.Products;
+using DbPoc.Common;
+using DbPoc.Domain.Entities;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace DbPoc.Controllers
 {
@@ -9,17 +14,20 @@ namespace DbPoc.Controllers
     public class ValuesController : ControllerBase
     {
         private readonly SystemTime systemTime;
+        private readonly IMediator mediator;
 
-        public ValuesController(SystemTime systemTime)
+        public ValuesController(IMediator mediator,SystemTime systemTime)
         {
+            this.mediator = mediator;
             this.systemTime = systemTime;
         }
 
         // GET api/values
         [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        public async Task<ActionResult<IEnumerable<Product>>> Get()
         {
-            return new string[] { "value1", "value2" };
+            IEnumerable<Product> result = await mediator.Send(new GetAllProductQuery());
+            return result.ToList();
         }
 
         // GET api/values/5
