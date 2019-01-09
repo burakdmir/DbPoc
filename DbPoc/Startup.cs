@@ -29,18 +29,17 @@ namespace DbPoc
 
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            //services.AddDbContext<DbPocDbContext>(options =>
-            // options.UseSqlServer(Configuration.GetConnectionString("DbPocDatabase")));
-
 
             IConfigurationRoot dbConfiguration = new ConfigurationBuilder()
                 .SetBasePath(hostingEnvironment.ContentRootPath)
             .AddJsonFile("dbSettings.json")
-            //.AddJsonFile($"appsettings.Local.json", optional: true)
-            //.AddJsonFile($"appsettings.{environmentName}.json", optional: true)
             .Build();
 
+
             services.AddTransient<IConfigurationRoot>((sp)=> dbConfiguration);
+
+        //    services.AddResponseCompression();
+
             services
                 .AddMvc()
                 .AddControllersAsServices()
@@ -64,6 +63,8 @@ namespace DbPoc
 
             app.UseHttpsRedirection();
             app.UseMvc();
+
+         //   app.UseResponseCompression();
         }
     }
 }
