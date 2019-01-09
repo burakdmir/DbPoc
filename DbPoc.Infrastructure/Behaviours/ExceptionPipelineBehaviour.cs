@@ -25,8 +25,8 @@ namespace DbPoc.Infrastructure.Behaviours
             }
             catch (Exception ex)
             {
-                logger.LogCritical($"Expetion: {ex}");
-                throw;
+                logger.LogCritical($"Exception: {ex}");
+                throw;//todo
 
             }
         }
