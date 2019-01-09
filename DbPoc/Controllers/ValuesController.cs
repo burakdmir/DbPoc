@@ -13,10 +13,10 @@ namespace DbPoc.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
-        private readonly SystemTime systemTime;
+        private readonly ISystemTime systemTime;
         private readonly IMediator mediator;
 
-        public ValuesController(IMediator mediator,SystemTime systemTime)
+        public ValuesController(IMediator mediator,ISystemTime systemTime)
         {
             this.mediator = mediator;
             this.systemTime = systemTime;

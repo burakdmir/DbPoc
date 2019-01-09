@@ -2,8 +2,8 @@
 
 namespace DbPoc.Common
 {
-    public class SystemTime
+    public interface ISystemTime
     {
-        public DateTime Now => DateTime.UtcNow;
+         DateTime Now { get; }
     }
 }
