@@ -6,6 +6,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace DbPoc.Controllers
@@ -33,9 +34,10 @@ namespace DbPoc.Controllers
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
+        public async Task<ActionResult<Product>> Get(int id)
         {
-            return $"value {systemTime.Now}";
+            Product product = await mediator.Send(new GetProductQuery { Id = id });
+            return Ok(product);
         }
 
         // POST api/values
@@ -48,15 +50,19 @@ namespace DbPoc.Controllers
         }
 
         // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut]
+        public async Task<ActionResult> Put([FromBody] UpdateProductCommand command)
         {
+            return Ok(await mediator.Send(command));
         }
 
         // DELETE api/values/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        [ProducesResponseType((int)HttpStatusCode.NoContent)]
+        public async Task<ActionResult> Delete(int id)
         {
+            await mediator.Send(new DeleteProductCommand { Id = id });
+            return NoContent();
         }
     }
 }
