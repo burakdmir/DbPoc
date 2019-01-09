@@ -1,4 +1,6 @@
 ﻿using Autofac;
+using DbPoc.Infrastructure.Behaviours;
+using MediatR;
 
 namespace DbPoc.Infrastructure.IOC
 {
@@ -6,7 +8,7 @@ namespace DbPoc.Infrastructure.IOC
     {
         protected override void Load(ContainerBuilder builder)
         {
-            
+            builder.RegisterGeneric(typeof(PerformancePipelineBehaviour<,>)).As(typeof(IPipelineBehavior<,>));
         }
     }
 }

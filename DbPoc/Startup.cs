@@ -6,7 +6,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Serilog;
 using System;
+using System.IO;
 
 namespace DbPoc
 {
@@ -38,7 +41,6 @@ namespace DbPoc
             .Build();
 
             services.AddTransient<IConfigurationRoot>((sp)=> dbConfiguration);
-
             services
                 .AddMvc()
                 .AddControllersAsServices()
@@ -46,7 +48,7 @@ namespace DbPoc
             return Bootstrap.Initialize(services);
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             if (env.IsDevelopment())
             {
@@ -57,6 +59,8 @@ namespace DbPoc
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+            loggerFactory.AddSerilog();
+            loggerFactory.AddFile(Path.Combine(env.ContentRootPath, "Logs","mylog-{Date}.txt"));
 
             app.UseHttpsRedirection();
             app.UseMvc();

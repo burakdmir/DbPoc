@@ -27,7 +27,7 @@ namespace DbPoc.Controllers
         public async Task<ActionResult<IEnumerable<Product>>> Get()
         {
             IEnumerable<Product> result = await mediator.Send(new GetAllProductQuery());
-            return result.ToList();
+            return Ok(result);
         }
 
         // GET api/values/5
