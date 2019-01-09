@@ -9,6 +9,7 @@ namespace DbPoc.Infrastructure.IOC
     {
         protected override void Load(ContainerBuilder builder)
         {
+            builder.RegisterGeneric(typeof(ExceptionPipelineBehaviour<,>)).As(typeof(IPipelineBehavior<,>));
             builder.RegisterGeneric(typeof(PerformancePipelineBehaviour<,>)).As(typeof(IPipelineBehavior<,>));
             builder.RegisterType<SystemTime>().As<ISystemTime>();
         }
