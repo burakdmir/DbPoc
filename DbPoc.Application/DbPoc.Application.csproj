@@ -14,8 +14,4 @@
     <ProjectReference Include="..\DbPoc.Persistence\DbPoc.Persistence.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Commands\" />
-  </ItemGroup>
-
 </Project>

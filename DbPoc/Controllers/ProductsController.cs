@@ -1,4 +1,5 @@
-﻿using DbPoc.Application.Queries.Products;
+﻿using DbPoc.Application.Commands.Products;
+using DbPoc.Application.Queries.Products;
 using DbPoc.Common;
 using DbPoc.Domain.Entities;
 using MediatR;
@@ -11,12 +12,12 @@ namespace DbPoc.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ValuesController : ControllerBase
+    public class ProductsController : ControllerBase
     {
         private readonly ISystemTime systemTime;
         private readonly IMediator mediator;
 
-        public ValuesController(IMediator mediator,ISystemTime systemTime)
+        public ProductsController(IMediator mediator, ISystemTime systemTime)
         {
             this.mediator = mediator;
             this.systemTime = systemTime;
@@ -39,8 +40,11 @@ namespace DbPoc.Controllers
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<ActionResult<int>> Post([FromBody] CreateProductCommand command)
         {
+            int id = await mediator.Send(command);
+
+            return Ok(id);
         }
 
         // PUT api/values/5
