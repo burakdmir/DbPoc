@@ -1,4 +1,5 @@
 FluentValidation
 Automapper
-MediatR
+MediatR ok
 Temporal table
+swagger ok

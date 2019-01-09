@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Serilog;
+using Swashbuckle.AspNetCore.Swagger;
 using System;
 using System.IO;
 
@@ -44,6 +45,12 @@ namespace DbPoc
                 .AddMvc()
                 .AddControllersAsServices()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
+            });
+
             return Bootstrap.Initialize(services);
         }
 
@@ -58,12 +65,21 @@ namespace DbPoc
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            loggerFactory.AddSerilog();
-            loggerFactory.AddFile(Path.Combine(env.ContentRootPath, "Logs","mylog-{Date}.txt"));
+
+            // Enable middleware to serve generated Swagger as a JSON endpoint.
+            app.UseSwagger();
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), 
+            // specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
 
             app.UseHttpsRedirection();
             app.UseMvc();
 
+            loggerFactory.AddSerilog();
+            loggerFactory.AddFile(Path.Combine(env.ContentRootPath, "Logs","mylog-{Date}.txt"));
          //   app.UseResponseCompression();
         }
     }
