@@ -43,6 +43,12 @@ namespace DbPoc
 
             services
                 .AddMvc()
+                 .AddJsonOptions(options =>
+                 {
+                     //Set date configurations
+                     //options.SerializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
+                     options.SerializerSettings.DateFormatString = "yyyy-MM-dd"; // month must be capital. otherwise it gives minutes.
+                 })
                 .AddControllersAsServices()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 

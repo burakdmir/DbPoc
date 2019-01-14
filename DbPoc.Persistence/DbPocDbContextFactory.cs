@@ -9,21 +9,25 @@ namespace DbPoc.Persistence
 {
     class DbPocDbContextFactory : IDesignTimeDbContextFactory<DbPocDbContext>
     {
-      
+
         public DbPocDbContext CreateDbContext(string[] args)
         {
-            //string basePath = Directory.GetCurrentDirectory();
-            //var configuration = new ConfigurationBuilder()
-            //   .SetBasePath(basePath)
-            //   .AddJsonFile("dbSettings.json")
-            //   //.AddJsonFile($"appsettings.Local.json", optional: true)
-            //   //.AddJsonFile($"appsettings.{environmentName}.json", optional: true)
-            //   .Build();
-            if(args == null || args.Length == 0)
+            string connectionString = String.Empty;
+            if (args == null || args.Length == 0)
             {
-                throw new ArgumentNullException();
+                string basePath = Directory.GetCurrentDirectory();
+                var configuration = new ConfigurationBuilder()
+                   .SetBasePath(basePath)
+                   .AddJsonFile("dbSettings.json")
+                   //.AddJsonFile($"appsettings.Local.json", optional: true)
+                   //.AddJsonFile($"appsettings.{environmentName}.json", optional: true)
+                   .Build();
+                connectionString = configuration.GetConnectionString("DbPocDatabase");
             }
-            var connectionString = args.First();// configuration.GetConnectionString("DbPocDatabase");
+            else
+            {
+                connectionString = args.First();
+            }
 
             var optionsBuilder = new DbContextOptionsBuilder<DbPocDbContext>();
 

@@ -9,6 +9,10 @@ namespace DbPoc.Persistence.Configurations
         public void Configure(EntityTypeBuilder<Product> builder)
         {
             builder.Property(e => e.Picture).HasColumnType("image");
+
+            builder.Property(e => e.StartTime).ValueGeneratedOnAddOrUpdate();
+            builder.Property(e => e.EndTime).ValueGeneratedOnAddOrUpdate();
+
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using DbPoc.Domain.Enums;
+using System;
 
 namespace DbPoc.Domain.Entities
 {
@@ -17,6 +18,12 @@ namespace DbPoc.Domain.Entities
         public decimal Quantity { get; set; }
 
         public UnitEnum   Unit { get; set; }
+
+        //[DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public DateTime StartTime { get; set; }
+
+        //[DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public DateTime EndTime { get; set; }
     }
 }
     

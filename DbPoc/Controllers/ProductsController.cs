@@ -4,6 +4,7 @@ using DbPoc.Common;
 using DbPoc.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -29,6 +30,16 @@ namespace DbPoc.Controllers
         public async Task<ActionResult<IEnumerable<Product>>> Get()
         {
             IEnumerable<Product> result = await mediator.Send(new GetAllProductQuery());
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("[action]")]
+        public async Task<ActionResult<IEnumerable<Product>>> GetByTime()
+        {
+
+            DateTime startTime = DateTime.UtcNow - TimeSpan.FromMinutes(10);
+            IEnumerable<Product> result = await mediator.Send(new GetAllProductByTimeQuery() { StartTime= startTime});
             return Ok(result);
         }
 
