@@ -6,13 +6,13 @@ using Microsoft.Extensions.Logging;
 
 namespace DbPoc.Infrastructure.Behaviours
 {
-    class PerformancePipelineBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+    class RequestPerformancePipelineBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     {
         private readonly ILogger<TRequest> logger;
 
         public Stopwatch timer { get; }
 
-        public PerformancePipelineBehaviour(ILogger<TRequest> logger)
+        public RequestPerformancePipelineBehaviour(ILogger<TRequest> logger)
         {
             this.logger = logger;
             this.timer = new Stopwatch();

@@ -1,5 +1,7 @@
-﻿using DbPoc.Infrastructure.IOC;
+﻿using DbPoc.Application.Validators;
+using DbPoc.Infrastructure.IOC;
 using DbPoc.Persistence;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -43,14 +45,12 @@ namespace DbPoc
 
             services
                 .AddMvc()
-                 .AddJsonOptions(options =>
-                 {
-                     //Set date configurations
-                     //options.SerializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
-                     options.SerializerSettings.DateFormatString = "yyyy-MM-dd"; // month must be capital. otherwise it gives minutes.
-                 })
                 .AddControllersAsServices()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreateProductCommandValidator>());
+
+
+
 
             services.AddSwaggerGen(c =>
             {

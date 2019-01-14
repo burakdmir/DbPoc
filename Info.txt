@@ -1,5 +1,5 @@
-FluentValidation
+FluentValidation ok
 Automapper
 MediatR ok
-Temporal table
+Temporal table ok
 swagger ok
