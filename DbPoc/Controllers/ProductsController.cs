@@ -1,5 +1,6 @@
 ﻿using DbPoc.Application.Commands.Products;
 using DbPoc.Application.Queries.Products;
+using DbPoc.Binders;
 using DbPoc.Common;
 using DbPoc.Domain.Entities;
 using MediatR;
@@ -35,11 +36,13 @@ namespace DbPoc.Controllers
 
         [HttpGet]
         [Route("[action]")]
-        public async Task<ActionResult<IEnumerable<Product>>> GetByTime()
+        public async Task<ActionResult<IEnumerable<Product>>> GetByTime(
+            [ModelBinder(BinderType =typeof(DateTimeBinders))]
+        DateTime startTime)
         {
 
-            DateTime startTime = DateTime.UtcNow - TimeSpan.FromMinutes(10);
-            IEnumerable<Product> result = await mediator.Send(new GetAllProductByTimeQuery() { StartTime= startTime});
+         //   DateTime endTime = DateTime.UtcNow - TimeSpan.FromMinutes(10);
+            IEnumerable<Product> result = await mediator.Send(new GetAllProductByTimeQuery { StartTime = startTime});
             return Ok(result);
         }
 
