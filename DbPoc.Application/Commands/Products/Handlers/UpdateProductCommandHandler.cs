@@ -27,7 +27,6 @@ namespace DbPoc.Application.Commands.Products.Handlers
 
             oldProduct.Name = request.Name;
             oldProduct.NetPrice = request.NetPrice ;
-            oldProduct.Quantity = request.Quantity;
             oldProduct.Unit = request.Unit;
             oldProduct.Vat = request.Vat;
 

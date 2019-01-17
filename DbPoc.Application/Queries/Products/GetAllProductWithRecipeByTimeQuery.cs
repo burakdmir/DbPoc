@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace DbPoc.Application.Queries.Products
 {
-    public class GetAllProductByTimeQuery : IRequest<IEnumerable<Product>>
+    public class GetAllProductWithRecipeByTimeQuery:IRequest<IEnumerable<Product>>
     {
         public DateTime StateTime { get; set; }
     }

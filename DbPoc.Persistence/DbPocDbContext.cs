@@ -33,9 +33,9 @@ namespace DbPoc.Persistence
         {
             modelBuilder
                  .Entity<Product>()
-                 .HasData(new Product { Id = 1, Name = "Tej", NetPrice = 230, Vat = 5, Quantity = 26, Unit = UnitEnum.Liter },
-                 new Product { Id = 2, Name = "Kenyér", NetPrice = 230, Vat = 5, Quantity = 42, Unit = UnitEnum.Kg },
-                 new Product { Id = 3, Name = "Herz szalámi", NetPrice = 230, Vat = 5, Quantity = 55, Unit = UnitEnum.Piece });
+                 .HasData(new Product { Id = 1, Name = "Tej", NetPrice = 230, Vat = 5, Unit = UnitEnum.Liter },
+                 new Product { Id = 2, Name = "Kenyér", NetPrice = 230, Vat = 5, Unit = UnitEnum.Kg },
+                 new Product { Id = 3, Name = "Herz szalámi", NetPrice = 230, Vat = 5,  Unit = UnitEnum.Piece });
         }
     }
 }

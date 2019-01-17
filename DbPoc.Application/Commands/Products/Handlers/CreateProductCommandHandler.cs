@@ -22,7 +22,6 @@ namespace DbPoc.Application.Commands.Products.Handlers
             {
                 Name = request.Name,
                 NetPrice = request.NetPrice,
-                Quantity = request.Quantity,
                 Unit = request.Unit,
                 Vat = request.Vat
             };

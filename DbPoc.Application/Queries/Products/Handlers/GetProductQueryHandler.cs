@@ -18,7 +18,7 @@ namespace DbPoc.Application.Queries.Products.Handlers
 
         public async Task<Product> Handle(GetProductQuery request, CancellationToken cancellationToken)
         {
-           Product product = await dbPocDbContext.Products.FindAsync(request.Id);
+            Product product = await dbPocDbContext.Products.FindAsync(request.Id);
 
             if (product == null)
             {

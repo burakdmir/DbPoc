@@ -7,26 +7,20 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
 namespace DbPoc.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class ProductsController : ControllerBase
+    public class ProductApiController : BasicApiController
     {
         private readonly ISystemTime systemTime;
-        private readonly IMediator mediator;
 
-        public ProductsController(IMediator mediator, ISystemTime systemTime)
+        public ProductApiController(IMediator mediator, ISystemTime systemTime):base(mediator)
         {
-            this.mediator = mediator;
             this.systemTime = systemTime;
         }
 
-        // GET api/values
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Product>>> Get()
         {
@@ -47,7 +41,19 @@ namespace DbPoc.Controllers
             return Ok(result);
         }
 
-        // GET api/values/5
+        [HttpGet]
+        [Route("[action]")]
+        public async Task<ActionResult<IEnumerable<Product>>> GetWithRecipeByTime(
+          [ModelBinder(BinderType =typeof(DateTimeBinders))]
+        DateTime? stateTime)
+        {
+            IEnumerable<Product> result = await mediator.Send(new GetAllProductWithRecipeByTimeQuery
+            {
+                StateTime = stateTime ?? DateTime.UtcNow
+            });
+            return Ok(result);
+        }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<Product>> Get(int id)
         {
@@ -55,7 +61,6 @@ namespace DbPoc.Controllers
             return Ok(product);
         }
 
-        // POST api/values
         [HttpPost]
         public async Task<ActionResult<int>> Post([FromBody] CreateProductCommand command)
         {
@@ -64,14 +69,12 @@ namespace DbPoc.Controllers
             return Ok(id);
         }
 
-        // PUT api/values/5
         [HttpPut]
         public async Task<ActionResult> Put([FromBody] UpdateProductCommand command)
         {
             return Ok(await mediator.Send(command));
         }
 
-        // DELETE api/values/5
         [HttpDelete("{id}")]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         public async Task<ActionResult> Delete(int id)
