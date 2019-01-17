@@ -38,11 +38,12 @@ namespace DbPoc.Controllers
         [Route("[action]")]
         public async Task<ActionResult<IEnumerable<Product>>> GetByTime(
             [ModelBinder(BinderType =typeof(DateTimeBinders))]
-        DateTime startTime)
+        DateTime? stateTime)
         {
-
-         //   DateTime endTime = DateTime.UtcNow - TimeSpan.FromMinutes(10);
-            IEnumerable<Product> result = await mediator.Send(new GetAllProductByTimeQuery { StartTime = startTime});
+            IEnumerable<Product> result = await mediator.Send(new GetAllProductByTimeQuery
+            {
+                StateTime = stateTime ?? DateTime.UtcNow
+            });
             return Ok(result);
         }
 

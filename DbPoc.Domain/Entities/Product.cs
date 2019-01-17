@@ -20,10 +20,10 @@ namespace DbPoc.Domain.Entities
         public UnitEnum   Unit { get; set; }
 
         //[DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-        public DateTime StartTime { get; set; }
+        //public DateTime StartTime { get; set; }
 
-        //[DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-        public DateTime EndTime { get; set; }
+        ////[DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        //public DateTime EndTime { get; set; }
     }
 }
     

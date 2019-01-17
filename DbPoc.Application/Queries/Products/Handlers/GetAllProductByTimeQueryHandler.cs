@@ -21,16 +21,12 @@ namespace DbPoc.Application.Queries.Products.Handlers
 
         public async Task<IEnumerable<Product>> Handle(GetAllProductByTimeQuery request, CancellationToken cancellationToken)
         {
-            //return await dbPocDbContext
-            //    .Products
-            //    .AsNoTracking()
-            //    .Where(p =>   p.StartTime <= request.StartTime)
-            //    .ToListAsync();
-
+         
+            string sqlFormattedDate = request.StateTime.ToString("yyyy-MM-dd HH:mm:ss.fff");
             return await dbPocDbContext
                .Products
                .AsNoTracking()
-               .FromSql($"SELECT * FROM Products FOR SYSTEM_TIME '{request.StartTime}' AND '{DateTime.UtcNow}'")
+               .FromSql($"SELECT * FROM Products FOR SYSTEM_TIME AS OF {sqlFormattedDate}")
                .ToListAsync();
         }
     }

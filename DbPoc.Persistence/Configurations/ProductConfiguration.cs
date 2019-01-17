@@ -10,8 +10,8 @@ namespace DbPoc.Persistence.Configurations
         {
             builder.Property(e => e.Picture).HasColumnType("image");
 
-            builder.Property(e => e.StartTime).ValueGeneratedOnAddOrUpdate();
-            builder.Property(e => e.EndTime).ValueGeneratedOnAddOrUpdate();
+            //builder.Property(e => e.StartTime).ValueGeneratedOnAddOrUpdate();
+            //builder.Property(e => e.EndTime).ValueGeneratedOnAddOrUpdate();
 
         }
     }
