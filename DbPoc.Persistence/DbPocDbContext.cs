@@ -9,6 +9,7 @@ namespace DbPoc.Persistence
     {
 
        public DbSet<Product> Products { get; set; }
+       public DbSet<Recipe> Recipes { get; set; }
 
         public DbPocDbContext(DbContextOptions<DbPocDbContext> options) : base(options)
         {

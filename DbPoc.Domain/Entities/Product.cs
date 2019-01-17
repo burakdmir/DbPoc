@@ -1,29 +1,31 @@
 ﻿using DbPoc.Domain.Enums;
 using System;
+using System.Collections.Generic;
 
 namespace DbPoc.Domain.Entities
 {
-    public class Product
+    public class Product : BasicEntity
     {
-        public int Id { get; set; }
+        public Product()
+        {
+            CompositeProducts = new List<Recipe>();
+            ComponentProducts = new List<Recipe>();
+            Children = new List<Product>();
+        }
 
         public string Name { get; set; }
-
         public decimal NetPrice { get; set; }
-
         public decimal Vat { get; set; }
-
-        public byte[] Picture { get; set; }
-
         public decimal Quantity { get; set; }
+        public UnitEnum Unit { get; set; }
+        public virtual ICollection<Recipe> CompositeProducts { get; private set; }
+        public ICollection<Recipe> ComponentProducts { get; private set; }
+        public int? ParentId { get; set; }
+        public virtual Product Parent { get; set; }
+        public ICollection<Product> Children { get; private set; }
 
-        public UnitEnum   Unit { get; set; }
-
-        //[DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         //public DateTime StartTime { get; set; }
-
-        ////[DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         //public DateTime EndTime { get; set; }
+
     }
 }
-    

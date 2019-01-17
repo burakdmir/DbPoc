@@ -8,6 +8,17 @@
     <Compile Remove="Migrations\20190114133044_temporal table computed.cs" />
     <Compile Remove="Migrations\20190114133114_temporal table computed.cs" />
     <Compile Remove="Migrations\20190114133751_temporal table computed2.cs" />
+    <Compile Remove="Migrations\20190117161444_recipe.cs" />
+    <Compile Remove="Migrations\20190117161655_recipe.cs" />
+    <Compile Remove="Migrations\20190117161848_recipe history.cs" />
+    <Compile Remove="Migrations\20190117162132_recipe history.cs" />
+    <Compile Remove="Migrations\20190117162353_recipe history.cs" />
+    <Compile Remove="Migrations\20190117162743_recipe history.cs" />
+    <Compile Remove="Migrations\20190117162909_recipe history.cs" />
+    <Compile Remove="Migrations\20190117163318_recipe history.cs" />
+    <Compile Remove="Migrations\20190117163521_recipe history.cs" />
+    <Compile Remove="Migrations\20190117163634_recipe.cs" />
+    <Compile Remove="Migrations\20190117163700_recipe history.cs" />
   </ItemGroup>
 
   <ItemGroup>

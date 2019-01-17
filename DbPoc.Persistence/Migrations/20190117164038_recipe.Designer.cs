@@ -4,14 +4,16 @@ using DbPoc.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DbPoc.Persistence.Migrations
 {
     [DbContext(typeof(DbPocDbContext))]
-    partial class DbPocDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190117164038_recipe")]
+    partial class recipe
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,6 +27,9 @@ namespace DbPoc.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<DateTime>("EndTime")
+                        .ValueGeneratedOnAddOrUpdate();
+
                     b.Property<string>("Name");
 
                     b.Property<decimal>("NetPrice");
@@ -32,6 +37,9 @@ namespace DbPoc.Persistence.Migrations
                     b.Property<int?>("ParentId");
 
                     b.Property<decimal>("Quantity");
+
+                    b.Property<DateTime>("StartTime")
+                        .ValueGeneratedOnAddOrUpdate();
 
                     b.Property<int>("Unit");
 
@@ -47,27 +55,33 @@ namespace DbPoc.Persistence.Migrations
                         new
                         {
                             Id = 1,
+                            EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Tej",
                             NetPrice = 230m,
                             Quantity = 26m,
+                            StartTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Unit = 3,
                             Vat = 5m
                         },
                         new
                         {
                             Id = 2,
+                            EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Kenyér",
                             NetPrice = 230m,
                             Quantity = 42m,
+                            StartTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Unit = 2,
                             Vat = 5m
                         },
                         new
                         {
                             Id = 3,
+                            EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Herz szalámi",
                             NetPrice = 230m,
                             Quantity = 55m,
+                            StartTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Unit = 1,
                             Vat = 5m
                         });
