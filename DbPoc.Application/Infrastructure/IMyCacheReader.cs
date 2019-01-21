@@ -1,6 +1,6 @@
 ﻿namespace DbPoc.Application.Infrastructure
 {
-    interface ICacheable
+    public interface IMyCacheReader : IMyCache
     {
     }
 }

@@ -1,16 +1,17 @@
-﻿using DbPoc.Domain.Entities;
+﻿using DbPoc.Application.Infrastructure;
+using DbPoc.Domain.Entities;
 using DbPoc.Persistence;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace DbPoc.Application.Commands.Products.Handlers
 {
-    public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand>
+    public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand>,IMyCacheWriter
     {
         private readonly DbPocDbContext dbPocDbContext;
+        public Type CacheType => typeof(Product);
 
         public UpdateProductCommandHandler(DbPocDbContext dbPocDbContext)
         {

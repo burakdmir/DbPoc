@@ -41,8 +41,8 @@ namespace DbPoc
 
             services.AddTransient<IConfigurationRoot>((sp)=> dbConfiguration);
 
-        //    services.AddResponseCompression();
-
+            //    services.AddResponseCompression();
+            services.AddMemoryCache();
             services
                 .AddMvc()
                 .AddJsonOptions(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)

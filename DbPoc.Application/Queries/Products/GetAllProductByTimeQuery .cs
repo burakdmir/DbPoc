@@ -6,8 +6,12 @@ using System.Collections.Generic;
 
 namespace DbPoc.Application.Queries.Products
 {
-    public class GetAllProductByTimeQuery : IRequest<IEnumerable<Product>>, ICacheable
+    public class GetAllProductByTimeQuery : IRequest<IEnumerable<Product>>, IMyCacheReader
     {
         public DateTime StateTime { get; set; }
+
+        public Type CacheType => typeof(Product);
+
+
     }
 }

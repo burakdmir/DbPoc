@@ -1,4 +1,5 @@
-﻿using DbPoc.Domain.Entities;
+﻿using DbPoc.Application.Infrastructure;
+using DbPoc.Domain.Entities;
 using DbPoc.Persistence;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +17,7 @@ namespace DbPoc.Application.Commands.Products.Handlers
         {
             this.dbPocDbContext = dbPocDbContext;
         }
+
 
         public async Task<int> Handle(CreateProductCommand request, CancellationToken cancellationToken)
         {
