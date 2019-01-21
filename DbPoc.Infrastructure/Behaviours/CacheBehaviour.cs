@@ -31,7 +31,7 @@ namespace DbPoc.Infrastructure.Behaviours
                 cacheType = myCache.CacheType;
             }
 
-            string key = request.GetType().Name;
+            string key = JsonConvert.SerializeObject(request); //request.GetType().Name;
             if (cacheType != null)
             {
                 var preCache = memoryCache.Get<Dictionary<string, string>>(cacheType);
