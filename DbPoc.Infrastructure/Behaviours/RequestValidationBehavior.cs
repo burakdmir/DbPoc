@@ -10,6 +10,8 @@ namespace DbPoc.Infrastructure.Behaviours
 {
     class RequestValidationBehavior<TRequest, TResponse> : BasicPipelineBehaviour<TRequest, TResponse>
            where TRequest : IRequest<TResponse>
+        where TResponse : class
+
     {
         private readonly IEnumerable<IValidator<TRequest>> validators;
 

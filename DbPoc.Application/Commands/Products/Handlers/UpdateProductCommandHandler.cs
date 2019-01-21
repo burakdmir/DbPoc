@@ -8,10 +8,9 @@ using System.Threading.Tasks;
 
 namespace DbPoc.Application.Commands.Products.Handlers
 {
-    public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand>,IMyCacheWriter
+    public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand>
     {
         private readonly DbPocDbContext dbPocDbContext;
-        public Type CacheType => typeof(Product);
 
         public UpdateProductCommandHandler(DbPocDbContext dbPocDbContext)
         {

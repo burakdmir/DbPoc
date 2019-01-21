@@ -8,6 +8,8 @@ namespace DbPoc.Infrastructure.Behaviours
 {
     class RequestPerformancePipelineBehaviour<TRequest, TResponse> : BasicPipelineBehaviour<TRequest, TResponse>
            where TRequest : IRequest<TResponse>
+        where TResponse : class
+
     {
         private readonly ILogger<TRequest> logger;
 
