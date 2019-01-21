@@ -5,7 +5,7 @@ using System;
 
 namespace DbPoc.Application.Commands.Products
 {
-    public class DeleteProductCommand: IRequest, IMyCacheWriter
+    public class DeleteProductCommand: IRequest<Unit>, IMyCacheWriter
     {
         public int Id { get; set; }
         public Type CacheType => typeof(Product);

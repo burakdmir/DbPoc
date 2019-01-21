@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DbPoc.Application.Commands.Products.Handlers
 {
-    public class DeleteProductCommandHandler : IRequestHandler<DeleteProductCommand>
+     class DeleteProductCommandHandler : IRequestHandler<DeleteProductCommand>
     {
         private readonly DbPocDbContext dbPocDbContext;
 

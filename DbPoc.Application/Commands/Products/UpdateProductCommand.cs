@@ -6,7 +6,7 @@ using System;
 
 namespace DbPoc.Application.Commands.Products
 {
-    public class UpdateProductCommand:IRequest, IMyCacheWriter
+    public class UpdateProductCommand: IRequest<Unit>, IMyCacheWriter
     {
         public int Id { get; set; }
         public string Name { get; set; }

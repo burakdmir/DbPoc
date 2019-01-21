@@ -1,6 +1,7 @@
 ﻿using DbPoc.Application.Infrastructure;
 using MediatR;
 using Microsoft.Extensions.Caching.Memory;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -8,9 +9,7 @@ using System.Threading.Tasks;
 
 namespace DbPoc.Infrastructure.Behaviours
 {
-    class CacheBehaviour<TRequest, TResponse> : BasicPipelineBehaviour<TRequest, TResponse>
-           where TRequest : IRequest<TResponse>
-        where TResponse : class
+    class CacheBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     {
         private readonly IMemoryCache memoryCache;
 
@@ -19,7 +18,7 @@ namespace DbPoc.Infrastructure.Behaviours
             this.memoryCache = memoryCache;
         }
 
-        public override async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
+        public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
         {
 
             if (request is IMyCacheReader && request is IMyCacheWriter)
@@ -35,17 +34,15 @@ namespace DbPoc.Infrastructure.Behaviours
             string key = request.GetType().Name;
             if (cacheType != null)
             {
-                var dic1 = memoryCache.Get<Dictionary<string, object>>(cacheType);
-                if (dic1?.ContainsKey(key) ?? false)
+                var preCache = memoryCache.Get<Dictionary<string, string>>(cacheType);
+                if (preCache?.ContainsKey(key) ?? false && request is IMyCacheReader)
                 {
-                    if (request is IMyCacheWriter cachewriter)
-                    {
-                        dic1.Remove(key);
-                    }
-                    else
-                    {
-                        return dic1[key] as TResponse;
-                    }
+                    return JsonConvert.DeserializeObject<TResponse>(preCache[key]);
+                }
+                if (preCache != null && request is IMyCacheWriter )
+                {
+                    preCache.Clear();
+                    memoryCache.Set(cacheType, preCache);
                 }
             }
 
@@ -53,18 +50,18 @@ namespace DbPoc.Infrastructure.Behaviours
 
             if (request is IMyCacheReader cacheReader2)
             {
-                var dic2 = memoryCache.Get<Dictionary<string, object>>(cacheType);
-                if (dic2 == null)
+                var postCache = memoryCache.Get<Dictionary<string, string>>(cacheType);
+                if (postCache == null)
                 {
-                    var cacheDic = new Dictionary<string, object>();
-                    cacheDic[request.GetType().Name] = response;
-                    memoryCache.Set(cacheType, cacheDic);
+                    var initCache = new Dictionary<string, string>();
+                    initCache[key] = JsonConvert.SerializeObject(response);
+                    memoryCache.Set(cacheType, initCache);
                 }
                 else
                 {
 
-                    dic2[request.GetType().Name] = response;
-                    memoryCache.Set(cacheType, dic2);
+                    postCache[key] = JsonConvert.SerializeObject(response);
+                    memoryCache.Set(cacheType, postCache);
                 }
 
             }

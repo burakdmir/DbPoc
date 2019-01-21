@@ -6,9 +6,7 @@ using Microsoft.Extensions.Logging;
 
 namespace DbPoc.Infrastructure.Behaviours
 {
-    class RequestPerformancePipelineBehaviour<TRequest, TResponse> : BasicPipelineBehaviour<TRequest, TResponse>
-           where TRequest : IRequest<TResponse>
-        where TResponse : class
+    class RequestPerformancePipelineBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
 
     {
         private readonly ILogger<TRequest> logger;
@@ -21,7 +19,7 @@ namespace DbPoc.Infrastructure.Behaviours
             this.Timer = new Stopwatch();
         }
 
-        public override async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
+        public  async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
         {
             Timer.Start();
             TResponse response = await next();

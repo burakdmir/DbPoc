@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DbPoc.Application.Commands.Products.Handlers
 {
-    public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand>
+     class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand>
     {
         private readonly DbPocDbContext dbPocDbContext;
 

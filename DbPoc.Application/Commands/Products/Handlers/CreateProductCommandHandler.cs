@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DbPoc.Application.Commands.Products.Handlers
 {
-    public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, int>
+     class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, int>
     {
         private readonly DbPocDbContext dbPocDbContext;
 
