@@ -19,10 +19,12 @@
     <Compile Remove="Migrations\20190117163521_recipe history.cs" />
     <Compile Remove="Migrations\20190117163634_recipe.cs" />
     <Compile Remove="Migrations\20190117163700_recipe history.cs" />
+    <Compile Remove="Migrations\20190117230253_test.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.8.1" />
+    <PackageReference Include="EFCoreTemporalSupport" Version="1.0.868" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.2.0" />

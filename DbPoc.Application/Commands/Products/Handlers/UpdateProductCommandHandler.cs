@@ -1,6 +1,7 @@
 ﻿using DbPoc.Domain.Entities;
 using DbPoc.Persistence;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -29,7 +30,6 @@ namespace DbPoc.Application.Commands.Products.Handlers
             oldProduct.NetPrice = request.NetPrice ;
             oldProduct.Unit = request.Unit;
             oldProduct.Vat = request.Vat;
-
             await dbPocDbContext.SaveChangesAsync(cancellationToken);
 
             return Unit.Value;

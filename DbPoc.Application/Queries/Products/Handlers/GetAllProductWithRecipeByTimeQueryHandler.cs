@@ -24,11 +24,9 @@ namespace DbPoc.Application.Queries.Products.Handlers
             return await dbPocDbContext
                .Products
                .AsNoTracking()
-               .FromSql($"SELECT * FROM Products FOR SYSTEM_TIME AS OF {sqlFormattedDate}")
-               .Include(p => p.ComponentProducts)   
-                .ThenInclude(r => r.CompositeProduct)
-                .Include(p => p.CompositeProducts)
-                .ThenInclude(r => r.ComponentProduct)
+               .FromSql($@"SELECT p.* FROM Products FOR SYSTEM_TIME AS OF {sqlFormattedDate} p
+JOIN recipes  FOR SYSTEM_TIME AS OF {sqlFormattedDate} r
+on p.id = r.compositeProductId ")
                .ToListAsync();
         }
     }

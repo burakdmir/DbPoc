@@ -1,5 +1,4 @@
 ﻿using DbPoc.Domain.Enums;
-using System;
 using System.Collections.Generic;
 
 namespace DbPoc.Domain.Entities
@@ -22,9 +21,6 @@ namespace DbPoc.Domain.Entities
         public int? ParentId { get; set; }
         public virtual Product Parent { get; set; }
         public ICollection<Product> Children { get; private set; }
-
-        //public DateTime StartTime { get; set; }
-        //public DateTime EndTime { get; set; }
 
     }
 }

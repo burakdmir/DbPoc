@@ -1,6 +1,7 @@
 ﻿using DbPoc.Domain.Entities;
 using DbPoc.Persistence;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -27,7 +28,6 @@ namespace DbPoc.Application.Commands.Products.Handlers
             };
 
             dbPocDbContext.Products.Add(entity);
-
             await dbPocDbContext.SaveChangesAsync(cancellationToken);
 
             return entity.Id;

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DbPoc.Persistence.Migrations
 {
     [DbContext(typeof(DbPocDbContext))]
-    [Migration("20190114133608_temporal table computed")]
-    partial class temporaltablecomputed
+    [Migration("20190117224603_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -27,20 +27,11 @@ namespace DbPoc.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("EndTime")
-                        .ValueGeneratedOnAddOrUpdate();
-
                     b.Property<string>("Name");
 
                     b.Property<decimal>("NetPrice");
 
-                    b.Property<byte[]>("Picture")
-                        .HasColumnType("image");
-
-                    b.Property<decimal>("Quantity");
-
-                    b.Property<DateTime>("StartTime")
-                        .ValueGeneratedOnAddOrUpdate();
+                    b.Property<int?>("ParentId");
 
                     b.Property<int>("Unit");
 
@@ -48,42 +39,74 @@ namespace DbPoc.Persistence.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ParentId");
+
                     b.ToTable("Products");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
-                            EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Tej",
                             NetPrice = 230m,
-                            Quantity = 26m,
-                            StartTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Unit = 3,
                             Vat = 5m
                         },
                         new
                         {
                             Id = 2,
-                            EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Kenyér",
                             NetPrice = 230m,
-                            Quantity = 42m,
-                            StartTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Unit = 2,
                             Vat = 5m
                         },
                         new
                         {
                             Id = 3,
-                            EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Herz szalámi",
                             NetPrice = 230m,
-                            Quantity = 55m,
-                            StartTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Unit = 1,
                             Vat = 5m
                         });
+                });
+
+            modelBuilder.Entity("DbPoc.Domain.Entities.Recipe", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("ComponentProductId");
+
+                    b.Property<decimal>("ComponentQuantity");
+
+                    b.Property<int?>("CompositeProductId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ComponentProductId");
+
+                    b.HasIndex("CompositeProductId");
+
+                    b.ToTable("Recipes");
+                });
+
+            modelBuilder.Entity("DbPoc.Domain.Entities.Product", b =>
+                {
+                    b.HasOne("DbPoc.Domain.Entities.Product", "Parent")
+                        .WithMany("Children")
+                        .HasForeignKey("ParentId");
+                });
+
+            modelBuilder.Entity("DbPoc.Domain.Entities.Recipe", b =>
+                {
+                    b.HasOne("DbPoc.Domain.Entities.Product", "ComponentProduct")
+                        .WithMany("CompositeProducts")
+                        .HasForeignKey("ComponentProductId");
+
+                    b.HasOne("DbPoc.Domain.Entities.Product", "CompositeProduct")
+                        .WithMany("ComponentProducts")
+                        .HasForeignKey("CompositeProductId");
                 });
 #pragma warning restore 612, 618
         }

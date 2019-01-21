@@ -1,6 +1,7 @@
 ﻿using DbPoc.Domain.Entities;
 using DbPoc.Persistence;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -19,7 +20,6 @@ namespace DbPoc.Application.Commands.Products.Handlers
             Product product = await dbPocDbContext.Products.FindAsync(request.Id);
 
             dbPocDbContext.Remove(product);
-
             await dbPocDbContext.SaveChangesAsync(cancellationToken);
 
             return Unit.Value;
