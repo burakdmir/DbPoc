@@ -21,13 +21,15 @@ namespace DbPoc.Application.Queries.Products.Handlers
         {
 
             string sqlFormattedDate = request.StateTime.ToString("yyyy-MM-dd HH:mm:ss.fff");
-            return await dbPocDbContext
+            await dbPocDbContext.Recipes.LoadAsync();
+
+            IEnumerable<Product> result = await dbPocDbContext
                .Products
                .AsNoTracking()
-               .FromSql($@"SELECT p.Id, p.NetPrice,p.Vat,p.ParentId,p.Name,p.Unit,CompositeProducts.*  FROM Products FOR SYSTEM_TIME AS OF {sqlFormattedDate} p
-JOIN recipes  FOR SYSTEM_TIME AS OF {sqlFormattedDate} CompositeProducts
-on p.id = CompositeProducts.compositeProductId ")
+              .FromSql($"select * from dbo.GetProductsRecipe({sqlFormattedDate})")              
                .ToListAsync();
+
+            return result;
         }
     }
 }

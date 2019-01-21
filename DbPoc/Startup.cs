@@ -45,7 +45,7 @@ namespace DbPoc
 
             services
                 .AddMvc()
-                //.AddJsonOptions(options => options.SerializerSettings.DateFormatString = "yyyy'-'MM'-'dd:HH':'mm':'ss")
+                .AddJsonOptions(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)
                 .AddControllersAsServices()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreateProductCommandValidator>());
