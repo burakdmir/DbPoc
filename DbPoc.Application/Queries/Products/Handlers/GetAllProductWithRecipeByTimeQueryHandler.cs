@@ -21,13 +21,25 @@ namespace DbPoc.Application.Queries.Products.Handlers
         {
 
             string sqlFormattedDate = request.StateTime.ToString("yyyy-MM-dd HH:mm:ss.fff");
-            await dbPocDbContext.Recipes.LoadAsync();
+            //await dbPocDbContext
+            //    .Recipes
+            //    .AsNoTracking()
+            //    .FromSql($" SELECT * FROM Recipes FOR SYSTEM_TIME AS OF {sqlFormattedDate}")
+            //    .LoadAsync();
 
             IEnumerable<Product> result = await dbPocDbContext
                .Products
-               .AsNoTracking()
-              .FromSql($"select * from dbo.GetProductsRecipe({sqlFormattedDate})")              
+              .FromSql($"SELECT * FROM Products FOR SYSTEM_TIME AS OF {sqlFormattedDate}")              
                .ToListAsync();
+
+            foreach (Product item in result)
+            {
+                await dbPocDbContext.Entry<Product>(item)
+                    .Collection(p => p.ComponentProducts)
+                    .Query()
+                    .FromSql($"SELECT * FROM Recipes FOR SYSTEM_TIME AS OF {sqlFormattedDate}")
+                    .LoadAsync();
+            }
 
             return result;
         }
