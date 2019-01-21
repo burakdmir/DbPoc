@@ -8,7 +8,8 @@ using System.Threading.Tasks;
 
 namespace DbPoc.Infrastructure.Behaviours
 {
-    class RequestValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+    class RequestValidationBehavior<TRequest, TResponse> : BasicPipelineBehaviour<TRequest, TResponse>
+           where TRequest : IRequest<TResponse>
     {
         private readonly IEnumerable<IValidator<TRequest>> validators;
 
@@ -17,7 +18,7 @@ namespace DbPoc.Infrastructure.Behaviours
             this.validators = validators;
         }
 
-        public Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
+        public override Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
         {
             var context = new ValidationContext(request);
 

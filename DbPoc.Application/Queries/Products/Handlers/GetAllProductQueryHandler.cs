@@ -1,8 +1,10 @@
-﻿using DbPoc.Domain.Entities;
-using DbPoc.Persistence;
+﻿using Dapper;
+using DbPoc.Domain.Entities;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -10,19 +12,27 @@ namespace DbPoc.Application.Queries.Products.Handlers
 {
     class GetAllProductQueryHandler : IRequestHandler<GetAllProductQuery, IEnumerable<Product>>
     {
-        private readonly DbPocDbContext dbPocDbContext;
+        private readonly IConfigurationRoot configurationRoot;
 
-        public GetAllProductQueryHandler(DbPocDbContext dbPocDbContext)
+        public GetAllProductQueryHandler(IConfigurationRoot configurationRoot)
         {
-            this.dbPocDbContext = dbPocDbContext;
+            this.configurationRoot = configurationRoot;
         }
 
         public async Task<IEnumerable<Product>> Handle(GetAllProductQuery request, CancellationToken cancellationToken)
         {
-            return await dbPocDbContext
-                .Products
-                .AsNoTracking()
-                .ToListAsync();
+            //return await dbPocDbContext
+            //    .Products
+            //    .AsNoTracking()
+            //    .ToListAsync();
+            string sql = $"SELECT * FROM Products ";
+
+            using (var connection = new SqlConnection(configurationRoot.GetConnectionString("DbPocDatabase")))
+            {
+                IEnumerable<Product> result = await connection.QueryAsync<Product>(sql);
+
+                return result.ToList();
+            }
         }
     }
 }

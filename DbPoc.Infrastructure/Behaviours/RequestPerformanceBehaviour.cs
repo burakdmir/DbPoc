@@ -6,27 +6,28 @@ using Microsoft.Extensions.Logging;
 
 namespace DbPoc.Infrastructure.Behaviours
 {
-    class RequestPerformancePipelineBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+    class RequestPerformancePipelineBehaviour<TRequest, TResponse> : BasicPipelineBehaviour<TRequest, TResponse>
+           where TRequest : IRequest<TResponse>
     {
         private readonly ILogger<TRequest> logger;
 
-        public Stopwatch timer { get; }
+        public Stopwatch Timer { get; }
 
         public RequestPerformancePipelineBehaviour(ILogger<TRequest> logger)
         {
             this.logger = logger;
-            this.timer = new Stopwatch();
+            this.Timer = new Stopwatch();
         }
 
-        public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
+        public override async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
         {
-            timer.Start();
+            Timer.Start();
             TResponse response = await next();
-            timer.Stop();
+            Timer.Stop();
 
             string  name = typeof(TRequest).Name;
 
-            logger.LogInformation($"Request:{request}; Name: {name}; execution time: {timer.ElapsedMilliseconds} ms ;");
+            logger.LogInformation($"Request:{request}; Name: {name}; execution time: {Timer.ElapsedMilliseconds} ms ;");
 
             return response;
         }

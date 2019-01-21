@@ -6,16 +6,17 @@ using System.Threading.Tasks;
 
 namespace DbPoc.Infrastructure.Behaviours
 {
-    class ExceptionPipelineBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+    class ExceptionBehaviour<TRequest, TResponse> : BasicPipelineBehaviour<TRequest, TResponse>
+           where TRequest : IRequest<TResponse>
     {
         private readonly ILogger<TRequest> logger;
 
-        public ExceptionPipelineBehaviour(ILogger<TRequest> logger)
+        public ExceptionBehaviour(ILogger<TRequest> logger)
         {
             this.logger = logger;
         }
 
-        public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
+        public override async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
         {
             try
             {

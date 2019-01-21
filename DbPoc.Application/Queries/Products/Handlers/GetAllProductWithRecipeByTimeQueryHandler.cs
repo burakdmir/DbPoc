@@ -1,9 +1,7 @@
 ﻿using Dapper;
 using Dapper.Mapper;
 using DbPoc.Domain.Entities;
-using DbPoc.Persistence;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -38,9 +36,8 @@ namespace DbPoc.Application.Queries.Products.Handlers
                     sql,
                     (product, recipe) =>
                     {
-                        Product productEntry;
 
-                        if (!productDictionary.TryGetValue(product.Id, out productEntry))
+                        if (!productDictionary.TryGetValue(product.Id, out Product productEntry))
                         {
                             productEntry = product;
                             productEntry.ComponentProducts = new List<Recipe>();
