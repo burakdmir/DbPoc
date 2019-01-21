@@ -3,6 +3,7 @@ using DbPoc.Persistence;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -29,17 +30,11 @@ namespace DbPoc.Application.Queries.Products.Handlers
 
             IEnumerable<Product> result = await dbPocDbContext
                .Products
-              .FromSql($"SELECT * FROM Products FOR SYSTEM_TIME AS OF {sqlFormattedDate}")              
+              .FromSql($"SELECT * FROM dbo.GetProductsRecipe({sqlFormattedDate})")       
                .ToListAsync();
 
-            foreach (Product item in result)
-            {
-                await dbPocDbContext.Entry<Product>(item)
-                    .Collection(p => p.ComponentProducts)
-                    .Query()
-                    .FromSql($"SELECT * FROM Recipes FOR SYSTEM_TIME AS OF {sqlFormattedDate}")
-                    .LoadAsync();
-            }
+            var pr =  dbPocDbContext.Recipes.Local.ToList();
+          
 
             return result;
         }
