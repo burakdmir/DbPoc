@@ -20,6 +20,7 @@
     <Compile Remove="Migrations\20190117163634_recipe.cs" />
     <Compile Remove="Migrations\20190117163700_recipe history.cs" />
     <Compile Remove="Migrations\20190117230253_test.cs" />
+    <Compile Remove="Migrations\20190121122043_view.cs" />
   </ItemGroup>
 
   <ItemGroup>
