@@ -1,8 +1,12 @@
-﻿using DbPoc.Domain.Entities;
+﻿using Dapper;
+using Dapper.Mapper;
+using DbPoc.Domain.Entities;
 using DbPoc.Persistence;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,32 +15,51 @@ namespace DbPoc.Application.Queries.Products.Handlers
 {
     class GetAllProductWithRecipeByTimeQueryHandler : IRequestHandler<GetAllProductWithRecipeByTimeQuery, IEnumerable<Product>>
     {
-        private readonly DbPocDbContext dbPocDbContext;
+        private readonly IConfigurationRoot configurationRoot;
 
-        public GetAllProductWithRecipeByTimeQueryHandler(DbPocDbContext dbPocDbContext)
+        public GetAllProductWithRecipeByTimeQueryHandler(IConfigurationRoot configurationRoot)
         {
-            this.dbPocDbContext = dbPocDbContext;
+            this.configurationRoot = configurationRoot;
         }
 
         public async Task<IEnumerable<Product>> Handle(GetAllProductWithRecipeByTimeQuery request, CancellationToken cancellationToken)
         {
-
             string sqlFormattedDate = request.StateTime.ToString("yyyy-MM-dd HH:mm:ss.fff");
-            //await dbPocDbContext
-            //    .Recipes
-            //    .AsNoTracking()
-            //    .FromSql($" SELECT * FROM Recipes FOR SYSTEM_TIME AS OF {sqlFormattedDate}")
-            //    .LoadAsync();
+            string sql = $@"SELECT * FROM Products FOR SYSTEM_TIME AS OF '{sqlFormattedDate}' p 
+  join recipes FOR SYSTEM_TIME AS OF '{sqlFormattedDate}' r
+  on p.id = r.compositeProductId ";
 
-            IEnumerable<Product> result = await dbPocDbContext
-               .Products
-              .FromSql($"SELECT * FROM dbo.GetProductsRecipe({sqlFormattedDate})")       
-               .ToListAsync();
+            using (var connection = new SqlConnection(configurationRoot.GetConnectionString("DbPocDatabase")))
+            {
+                var productDictionary = new Dictionary<int, Product>();
 
-            var pr =  dbPocDbContext.Recipes.Local.ToList();
-          
 
-            return result;
+                IEnumerable<Product> list = await connection.QueryAsync<Product, Recipe, Product>(
+                    sql,
+                    (product, recipe) =>
+                    {
+                        Product productEntry;
+
+                        if (!productDictionary.TryGetValue(product.Id, out productEntry))
+                        {
+                            productEntry = product;
+                            productEntry.ComponentProducts = new List<Recipe>();
+                            productDictionary.Add(productEntry.Id, productEntry);
+                        }
+
+                        productEntry.ComponentProducts.Add(recipe);
+                        return productEntry;
+                    },
+                    splitOn: "Id");
+
+               // IEnumerable<Product> list = await connection.QueryAsync<Product, Recipe>(sql);// dapper.mapper
+
+
+
+                return list.ToList();
+
+
+            }
         }
     }
 }

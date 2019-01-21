@@ -1,6 +1,4 @@
-﻿using DbPoc.Domain.Entities;
-using EFCoreTemporalSupport;
-using DbPoc.Persistence.Utils;
+﻿using DbPoc.Persistence.Utils;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DbPoc.Persistence.Migrations
