@@ -36,7 +36,7 @@ namespace DbPoc.Controllers
         {
             IEnumerable<Product> result = await mediator.Send(new GetAllProductByTimeQuery
             {
-                StateTime = stateTime ?? DateTime.UtcNow
+                StateTime = stateTime
             });
             return Ok(result);
         }
@@ -49,7 +49,7 @@ namespace DbPoc.Controllers
         {
             IEnumerable<Product> result = await mediator.Send(new GetAllProductWithRecipeByTimeQuery
             {
-                StateTime = stateTime ?? DateTime.UtcNow
+                StateTime = stateTime 
             });
             return Ok(result);
         }

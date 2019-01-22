@@ -21,10 +21,6 @@ namespace DbPoc.Application.Queries.Products.Handlers
 
         public async Task<IEnumerable<Product>> Handle(GetAllProductQuery request, CancellationToken cancellationToken)
         {
-            //return await dbPocDbContext
-            //    .Products
-            //    .AsNoTracking()
-            //    .ToListAsync();
             string sql = $"SELECT * FROM Products ";
 
             using (var connection = new SqlConnection(configurationRoot.GetConnectionString("DbPocDatabase")))

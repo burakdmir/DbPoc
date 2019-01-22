@@ -19,20 +19,6 @@ namespace DbPoc.Application.Queries.Products.Handlers
 
         public async Task<Product> Handle(GetProductQuery request, CancellationToken cancellationToken)
         {
-            //Product product = await dbPocDbContext.Products.FindAsync(request.Id);
-
-            //if (product == null)
-            //{
-            //    throw new Exception();
-            //}
-            //return product;
-
-            //using (var connection = new SqlConnection(configurationRoot.GetConnectionString("DbPocDatabase")))
-            //{
-            //    return await connection.GetAsync<Product>(request.Id);
-            //}
-
-
             string sql = $"SELECT * FROM Products WHERE Id = {request.Id}";
 
             using (var connection = new SqlConnection(configurationRoot.GetConnectionString("DbPocDatabase")))

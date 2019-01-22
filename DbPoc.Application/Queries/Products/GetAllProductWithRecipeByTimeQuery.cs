@@ -8,7 +8,7 @@ namespace DbPoc.Application.Queries.Products
 {
     public class GetAllProductWithRecipeByTimeQuery:IRequest<IEnumerable<Product>>, IMyCacheReader
     {
-        public DateTime StateTime { get; set; }
+        public DateTime? StateTime { get; set; }
         public Type CacheType => typeof(Product);
 
     }

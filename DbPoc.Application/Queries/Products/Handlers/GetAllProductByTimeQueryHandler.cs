@@ -25,12 +25,7 @@ namespace DbPoc.Application.Queries.Products.Handlers
         public async Task<IEnumerable<Product>> Handle(GetAllProductByTimeQuery request, CancellationToken cancellationToken)
         {
 
-            string sqlFormattedDate = request.StateTime.ToString("yyyy-MM-dd HH:mm:ss.fff");
-            //return await dbPocDbContext
-            //   .Products
-            //   .AsNoTracking()
-            //   .FromSql($"SELECT * FROM Products FOR SYSTEM_TIME AS OF {sqlFormattedDate}")
-            //   .ToListAsync();
+            string sqlFormattedDate = (request.StateTime ?? DateTime.UtcNow).ToString("yyyy-MM-dd HH:mm:ss.fff");
             string sql = $"SELECT * FROM Products FOR SYSTEM_TIME AS OF '{sqlFormattedDate}'";
 
             using (var connection = new SqlConnection(configurationRoot.GetConnectionString("DbPocDatabase")))

@@ -3,6 +3,7 @@ using Dapper.Mapper;
 using DbPoc.Domain.Entities;
 using MediatR;
 using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -22,7 +23,7 @@ namespace DbPoc.Application.Queries.Products.Handlers
 
         public async Task<IEnumerable<Product>> Handle(GetAllProductWithRecipeByTimeQuery request, CancellationToken cancellationToken)
         {
-            string sqlFormattedDate = request.StateTime.ToString("yyyy-MM-dd HH:mm:ss.fff");
+            string sqlFormattedDate = (request.StateTime ?? DateTime.UtcNow).ToString("yyyy-MM-dd HH:mm:ss.fff");
             string sql = $@"SELECT * FROM Products FOR SYSTEM_TIME AS OF '{sqlFormattedDate}' p 
   join recipes FOR SYSTEM_TIME AS OF '{sqlFormattedDate}' r
   on p.id = r.compositeProductId ";
@@ -49,7 +50,7 @@ namespace DbPoc.Application.Queries.Products.Handlers
                     },
                     splitOn: "Id");
 
-               // IEnumerable<Product> list = await connection.QueryAsync<Product, Recipe>(sql);// dapper.mapper
+                // IEnumerable<Product> list = await connection.QueryAsync<Product, Recipe>(sql);// dapper.mapper
 
 
 
